@@ -4,9 +4,8 @@
 	"private": true,
 	"dependencies": {
 		"express": "^4.13.4",
-		"body-parser": "^1.15.0",
 		"systime": "^0.2.0",
-		"weather": "^0.1.0",
+		"openweathermap": "^1.0.0",
 		"twilio": "^2.9.0"
 	}
 }
