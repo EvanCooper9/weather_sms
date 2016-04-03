@@ -9,16 +9,6 @@ var Console = require('console').Console;
 var logStream = fs.createWriteStream('./logs/0000_boot.txt');
 var myConsole = new Console(logStream);
 
-// Load the alert schedule file.
-var alertTimes;
-try {
-	var file = './data/alertTimes.json';
-	alertTimes = JSON.parse(fs.readFileSync(file, 'utf-8'));
-} catch (e) {
-	myConsole.log('No alert times.. killing weather_sms');
-	process.exit();
-}
-
 // Load the credentials file.
 var credentials;
 try {
@@ -30,12 +20,12 @@ try {
 }
 
 // Load the accounts file.
-var accounts;
+var userData;
 try {
-	var file = './data/accounts.json';
-	accounts = JSON.parse(fs.readFileSync(file, 'utf-8'));
+	var file = './data/userData.json';
+	userData = JSON.parse(fs.readFileSync(file, 'utf-8'));
 } catch (e) {
-	myConsole.log("No accounts.. killing weather_sms");
+	myConsole.log("No user data.. killing weather_sms");
 	process.exit();
 }
 
@@ -51,49 +41,8 @@ var weatherPatams = {
 var twilio = require('twilio');
 var client = new twilio.RestClient(credentials['twilio']['accountSID'], credentials['twilio']['authToken']);
 
-// Setup incoming server - Currently disabled. Enable below.
-var port = 9902;
-var bodyParser = require('body-parser');
-var express = require('express');
-var app = express();
-app.use(bodyParser.urlencoded({ extended: false }));
-
-var weather_request = function(req) {
-	params['location'] = accounts[req.query.From]['city'];
-	weather(params, function(data) {
-		var textString = '\nAutomatic weather: ' + accounts[req.query.From['city']] + '\n';
-		textString += 'Current: ' + data.temp + ', ' + data.text + '\nHigh: ' + data.high + '\nLow: ' + data.low;
-	
-		client.messages.create({
-			body: textString,
-			to: req.query.From,
-			from: credentials['twilio']['phoneNumber']
-			}, 
-			function(message) {
-				req.respond();
-				myConsole.log('Weather sent to: ' + accounts[req.query.From]['name'] + " - " + req.query.From + '\n');
-			}
-		);
-	});	
-}
-
-app.get('/data', function (req, res) {
-	weather_request(req);
-});
-
-var serverUp = function() {
-	console.log("weather_sms listening on port " + port);
-}
-
-// Uncomment to enable incoming server.
-/*
-var server = http.createServer(app);
-server.listen(port);
-server.on('listening', serverUp);
-*/
-
-var sendMessage = function(recepient) {
-	openWeatherMap.now({id: accounts[recepient]['cityId'], appid: weatherPatams['appid'], units: 'metric'}, function(err, data) {
+var sendMessage = function(account) {
+	openWeatherMap.now({id: account['cityId'], appid: weatherPatams['appid'], units: 'metric'}, function(err, data) {
  		var textString = '\nAutomatic weather: ' + data['name'] + '\n';
 		textString += 'Current: ' + data['main']['temp'] + ', ' + data['weather'][0]['description'];
 		textString += '\nHigh: ' + data['main']['temp_max'];
@@ -101,11 +50,11 @@ var sendMessage = function(recepient) {
 
 		client.messages.create({
 			body: textString,
-			to: recepient,
+			to: account['number'],
 			from: credentials['twilio']['phoneNumber']
 			}, 
 			function(message) {
-				myConsole.log('Weather sent to: ' + accounts[recepient]['name'] + " - " + recepient);
+				myConsole.log('Weather sent to: ' + account['name'] + " - " + account['number']);
 			}
 		);
 	})
@@ -123,13 +72,13 @@ systime.on('minute', function(date) {
 
 	myConsole.log(date);
 
-	for (var i = 0; i < alertTimes['size']; i++) {
-		if (dateDay === alertTimes[i]['day'] && dateHour + dateMinute === alertTimes[i]['time']) {
-			console.log("found alert")
-			var alert = alertTimes[i];
-			sendMessage(alert['recepient']);
-		}
-	}
+	userData['accounts'].forEach(function(someAccount) {
+		someAccount['alerts'].forEach(function(someAlert) {
+			if (dateDay === someAlert['day'] && dateHour + dateMinute == someAlert['time']) {
+				sendMessage(someAccount);
+			}
+		});
+	});
 });
 
 /*
@@ -148,8 +97,8 @@ systime.on('day', function(date) {
 	myConsole = new Console(fs.createWriteStream('./logs/' + dateString + '.txt'));
 
 	// Re-load the alert time data
-	var file = './data/alertTimes.json';
-	alertTimes = JSON.parse(fs.readFileSync(file, 'utf-8'));
+	var file = './data/userData.json';
+	userData = JSON.parse(fs.readFileSync(file, 'utf-8'));
 });
 
 /*

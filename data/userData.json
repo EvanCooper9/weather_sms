@@ -1,0 +1,39 @@
+{
+	"accounts" : [
+		{
+			"name" : "Evan",
+			"number" : "14161234567",
+			"cityId" : 6094817,
+			"alerts" : [
+				{
+					"day" : "Mon",
+					"time" : "0730"
+				},
+				{
+					"day" : "Tue",
+					"time" : "0830"
+				},
+				{
+					"day" : "Wed",
+					"time" : "0730"
+				},
+				{
+					"day" : "Thu",
+					"time" : "0830"
+				},
+				{
+					"day" : "Fri",
+					"time" : "0830"
+				},
+				{
+					"day" : "Sat",
+					"time" : "1000"
+				},
+				{
+					"day" : "Sun",
+					"time" : "1043"
+				}
+			]
+		}
+	]
+}
