@@ -7,14 +7,19 @@ weather_sms is a pure javascript app that sends scheduled text messages containi
 Currently, it runs on an [Onion Omega](https://onion.io).
 
 ##Getting Started
-###Dependencies
-Run `npm install` within the project directory to install the following npm packages:
+Install package dependencies using npm:
 - [twilio](https://www.npmjs.com/package/twilio) v2.9.0
 - [openweathermap](https://www.npmjs.com/package/openweathermap) v1.0.0
 - [systime](https://www.npmjs.com/package/systime) v0.2.0
 - [express](https://www.npmjs.com/package/express) v4.13.4
+```
+npm install
+```
 
-Then, simply run `node weather_sms.js` within the project directory to start weather_sms.
+Finally, simply run `node` with `weather_sms.js`:
+```
+node weather_sms.js
+```
 
 ##User Data
 Notification data is stored in JSON format, and is located in the `./data` directory.
