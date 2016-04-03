@@ -50,6 +50,10 @@ Where
 ##API's and Stuff
 API credentials are stored in `credentials.JSON`, located in `./data`. You should have your own API keys for Twilio and OpenWeatherMap.
 
+##Logs
+weather_sms logs every minute to `./logs`.
+On start, weather_sms creates a new log file, `000_boot.txt`. Everyday, a new log file will be created that includes the date it was created in the file name (ex: `Apr 02 2016.txt`)
+
 ##Next Steps
 - Allow clients to respond with SMS to retrieve weather information
 
