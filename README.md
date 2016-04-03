@@ -21,12 +21,12 @@ Notification data is stored in JSON format, and is located in the `./data` direc
 
 ###Account
 Accounts are stored (in an array key-value paired to `accounts`) as follows:
-```
+```JSON
 {
   "name" : "Evan",
   "number" : "14161234567",
   "cityId" : 6094817,
-  "alerts" : [...]
+  "alerts" : [ ]
 }
 ```
 Where
@@ -37,7 +37,7 @@ Where
 
 ###Alert
 Alerts are stored (in an array key-value paired to` alerts`) as follows:
-```
+```JSON
 {
   "day" : "Mon",
   "time" : "1345"
