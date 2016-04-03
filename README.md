@@ -1,4 +1,4 @@
-# weather_sms
+# weather_sms ![By Jennifer Cozzette - Noun Project](https://d30y9cdsu7xlg0.cloudfront.net/png/97505-200.png)
 Scheduled weather notifications via SMS
 
 ##About
