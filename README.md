@@ -11,7 +11,6 @@ Install package dependencies using npm:
 - [twilio](https://www.npmjs.com/package/twilio) v2.9.0
 - [openweathermap](https://www.npmjs.com/package/openweathermap) v1.0.0
 - [systime](https://www.npmjs.com/package/systime) v0.2.0
-- [express](https://www.npmjs.com/package/express) v4.13.4
 ```
 npm install
 ```
