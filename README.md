@@ -16,7 +16,7 @@ Install package dependencies using npm:
 npm install
 ```
 
-Finally, simply run `node` with `weather_sms.js`:
+Finally, simply run `weather_sms.js` with `node`:
 ```
 node weather_sms.js
 ```
@@ -80,6 +80,7 @@ weather_sms logs every minute to a .txt file in `./logs`.
 On start, weather_sms creates a new log file, `000_boot.txt`. Everyday, a new log file will be created that includes the date it was created in the file name (ex: `Apr 02 2016.txt`).
 
 ##Next Steps
+- Optimize API call frequency. Curently, weather data is retrieved for every scheduled alert. Alerts scheduled for the same time and day should use the same weather data
 - Allow clients to respond with SMS to retrieve weather information
 - Allow clients to sign-up and edit their profile by sending a text message
 
