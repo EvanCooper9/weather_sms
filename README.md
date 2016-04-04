@@ -22,10 +22,16 @@ node weather_sms.js
 ```
 
 ##User Data
-Notification data is stored in JSON format, and is located in the `./data` directory.
+Notification data is stored in JSON format, and is located in the `./data` directory. For convenience, all data is stored in an array which is key-value paird to `accounts`. In future, more data other than the account information may be stored in the JSON file.
 
-###Account
-Accounts are stored (in an array key-value paired to `accounts`) as follows:
+```JSON
+{
+  "accounts" : [  ]
+}
+```
+
+###Accounts
+Accounts are stored as follows:
 ```JSON
 {
   "name" : "Evan",
@@ -40,7 +46,7 @@ Where
 - `cityId` is the ID if the city wich weather information is gathered for. See [here](http://openweathermap.org/current#cityid) for more information
 - `alerts` is an array of alert objects
 
-###Alert
+###Alerts
 Alerts are stored (in an array key-value paired to` alerts`) as follows:
 ```JSON
 {
@@ -53,14 +59,29 @@ Where
 - `time` is the time, in 24h, that the alert is scheduled for
 
 ##API's and Stuff
-API credentials are stored in `credentials.JSON`, located in `./data`. You should have your own API keys for Twilio and OpenWeatherMap.
+API credentials are stored in `credentials.JSON`, located in `./data`. You should have your own API keys for Twilio and OpenWeatherMap. Additionally for Twilio, weather_sms requires your Twilio phone number associated with your API key to be stored in the credentials file.
+
+All API data is stored as follows:
+```JSON
+{
+  "twilio" : {
+    "accountSID" : "twilio_accountSID",
+    "authToken" : "twilio_authToken",
+    "phoneNumber" : "twilio_phoneNumber"
+  },
+  "openweathermap" : {
+    "appid" : "openweathermap_appid"
+  }
+}
+```
 
 ##Logs
-weather_sms logs every minute to `./logs`.
-On start, weather_sms creates a new log file, `000_boot.txt`. Everyday, a new log file will be created that includes the date it was created in the file name (ex: `Apr 02 2016.txt`)
+weather_sms logs every minute to a .txt file in `./logs`.
+On start, weather_sms creates a new log file, `000_boot.txt`. Everyday, a new log file will be created that includes the date it was created in the file name (ex: `Apr 02 2016.txt`).
 
 ##Next Steps
 - Allow clients to respond with SMS to retrieve weather information
+- Allow clients to sign-up and edit their profile by sending a text message
 
 ##License
 MIT License
