@@ -19,6 +19,7 @@ npm install
 Finally, simply run `weather_sms.js` with `node`:
 ```
 node weather_sms.js
+> weather_sms is now running
 ```
 
 ##User Data
