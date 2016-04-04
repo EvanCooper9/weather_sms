@@ -4,7 +4,7 @@
 var fs = require('fs');
 var http = require('http');
 
-// Setup te log file
+// Setup the log file
 var Console = require('console').Console;
 var logStream = fs.createWriteStream('./logs/0000_boot.txt');
 var myConsole = new Console(logStream);
