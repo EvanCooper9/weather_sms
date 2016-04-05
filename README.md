@@ -60,17 +60,7 @@ Where
 - `cityId` is the ID if the city wich weather information is gathered for. See [here](http://openweathermap.org/current#cityid) for more information
 - `alerts` is an array of alert objects
 
-###Cities
-City data is stored within the `cities` as key-value pairings, where the name of the city is the key, and an object containing the latitude and longitude information is the value:
-
-```JSON
-"Ottawa" : {
-  "lat" : 45.4215,
-  "long" : -75.6972
-}
-```
-
-###Alerts
+####Alerts
 Alerts are stored (in an array key-value paired to` alerts`) as follows:
 ```JSON
 {
@@ -81,6 +71,16 @@ Alerts are stored (in an array key-value paired to` alerts`) as follows:
 Where
 - `day` is the day that the alert is scheduled for. Represented in 3 letters (`Mon`, `Tue`, `Wed`, `Thu`, `Fri`, `Sat`, `Sun`)
 - `time` is the time, in 24h, that the alert is scheduled for
+
+###Cities
+City data is stored within the `cities` as key-value pairings, where the name of the city is the key, and an object containing the latitude and longitude information is the value:
+
+```JSON
+"Ottawa" : {
+  "lat" : 45.4215,
+  "long" : -75.6972
+}
+```
 
 ##API's and Stuff
 API credentials are stored in `credentials.JSON`, located in `./data`. You should have your own API keys for Twilio and OpenWeatherMap. Additionally for Twilio, weather_sms requires your Twilio phone number associated with your API key to be stored in the credentials file.
@@ -115,7 +115,8 @@ Mon Apr 04 2016 10:57:00 GMT-0400 (EDT)
 ```
 
 ##New Features
-- Optimized API call frequency. Weather data is only downloaded once per distinct city ID, and is sent to the appropriate accounts.
+- Optimized API call frequency. Weather data is only downloaded once per distinct location, and is sent to the appropriate accounts.
+- Changed weather API provider from OpenWeatherMap to Forecast.io
 
 ##Next Steps
 - Allow clients to respond with SMS to retrieve weather information
