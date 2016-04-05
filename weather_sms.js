@@ -32,8 +32,9 @@ try {
 // Setup OpenWeatherMap API with credentials.
 // https://www.npmjs.com/package/openweathermap
 var openWeatherMap = require('openweathermap')
-var weatherPatams = {
-	'appid' : credentials['openweathermap']['appid']
+var weatherParams = {
+	'appid' : credentials['openweathermap']['appid'],
+	'units' : 'metric'
 }
 
 // Setup Twilio API with credentials.
@@ -41,23 +42,21 @@ var weatherPatams = {
 var twilio = require('twilio');
 var client = new twilio.RestClient(credentials['twilio']['accountSID'], credentials['twilio']['authToken']);
 
-var sendMessage = function(account) {
-	openWeatherMap.now({id: account['cityId'], appid: weatherPatams['appid'], units: 'metric'}, function(err, data) {
- 		var textString = '\nAutomatic weather: ' + data['name'] + '\n';
-		textString += 'Current: ' + data['main']['temp'] + ', ' + data['weather'][0]['description'];
-		textString += '\nHigh: ' + data['main']['temp_max'];
-		textString += '\nLow: ' + data['main']['temp_min'];
+var sendMessage = function(account, weatherData) {
+	var textString = '\nAutomatic weather: ' + weatherData['name'] + '\n';
+	textString += 'Current: ' + weatherData['main']['temp'] + ', ' + weatherData['weather'][0]['description'];
+	textString += '\nHigh: ' + weatherData['main']['temp_max'];
+	textString += '\nLow: ' + weatherData['main']['temp_min'];
 
-		client.messages.create({
-			body: textString,
-			to: account['number'],
-			from: credentials['twilio']['phoneNumber']
-			}, 
-			function(message) {
-				myConsole.log('Weather sent to: ' + account['name'] + " - " + account['number']);
-			}
-		);
-	})
+	client.messages.create({
+		body: textString,
+		to: account['number'],
+		from: credentials['twilio']['phoneNumber']
+		}, 
+		function(message) {
+			myConsole.log('Weather sent to: ' + account['name'] + " - " + account['number']);
+		}
+	);
 }
 
 // Setup Systime for time based actions
@@ -72,11 +71,27 @@ systime.on('minute', function(date) {
 
 	myConsole.log(date);
 
+	var weatherToFetch = []
+
+	// Populate the weather fetching queue with accounts that need notifying
 	userData['accounts'].forEach(function(someAccount) {
 		someAccount['alerts'].forEach(function(someAlert) {
 			if (dateDay === someAlert['day'] && dateHour + dateMinute == someAlert['time']) {
-				sendMessage(someAccount);
+				if (weatherToFetch.indexOf(someAccount['cityId']) != -1) {
+					weatherToFetch[someAccount['cityId']].push(someAccount);
+				} else {
+					weatherToFetch[someAccount['cityId']] = [someAccount];
+				}
 			}
+		});
+	});
+
+	// Retrieve weather data once per unique city ID, and send appropriate messages
+	weatherToFetch.forEach(function(weatherID) {
+		openweathermap.now({id: weatherID, appid: weatherParams['appid'], units: weatherParams['units']}, function(err, data) {
+			weatherToFetch[weatherID].forEach(function(someAccount) {
+				sendMessage(someAccount, data);
+			});
 		});
 	});
 });
