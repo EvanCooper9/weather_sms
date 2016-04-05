@@ -2,8 +2,8 @@
 	"accounts" : [
 		{
 			"name" : "Evan",
-			"number" : "14161234567",
-			"cityId" : 6094817,
+			"number" : "14160001111",
+			"city" : "Ottawa",
 			"alerts" : [
 				{
 					"day" : "Mon",
@@ -31,9 +31,15 @@
 				},
 				{
 					"day" : "Sun",
-					"time" : "1043"
+					"time" : "1000"
 				}
 			]
 		}
-	]
+	],
+	"cities" : {
+		"Ottawa" : {
+			"lat" : 45.4215,
+			"long" : -75.6972
+		}
+	}
 }

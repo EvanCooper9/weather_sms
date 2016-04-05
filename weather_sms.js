@@ -15,7 +15,7 @@ try {
 	var file = './data/credentials.json';
 	credentials = JSON.parse(fs.readFileSync(file, 'utf-8'));
 } catch (e) {
-	myConsole.log("No credentials.. killing weather_sms");
+	console.log("No credentials.. killing weather_sms");
 	process.exit();
 }
 
@@ -25,17 +25,24 @@ try {
 	var file = './data/userData.json';
 	userData = JSON.parse(fs.readFileSync(file, 'utf-8'));
 } catch (e) {
-	myConsole.log("No user data.. killing weather_sms");
+	console.log("No user data.. killing weather_sms");
 	process.exit();
 }
 
-// Setup OpenWeatherMap API with credentials.
-// https://www.npmjs.com/package/openweathermap
-var openWeatherMap = require('openweathermap')
-var weatherParams = {
-	'appid' : credentials['openweathermap']['appid'],
-	'units' : 'metric'
-}
+// Setup the forecast.io API with credentials
+// Powered by Forecast - forecast.io
+var Forecast = require('forecast');
+var forecast = new Forecast({
+	service: 'forecast.io',
+	key: credentials['forecast.io']['APIKey'],
+	units: 'celcius',
+	cache: false,
+	ttl: {
+		minutes: 27,
+		seconds: 45
+	}
+});
+
 
 // Setup Twilio API with credentials.
 // https://www.npmjs.com/package/twilio
@@ -43,10 +50,10 @@ var twilio = require('twilio');
 var client = new twilio.RestClient(credentials['twilio']['accountSID'], credentials['twilio']['authToken']);
 
 var sendMessage = function(account, weatherData) {
-	var textString = '\nAutomatic weather: ' + weatherData['name'] + '\n';
-	textString += 'Current: ' + weatherData['main']['temp'] + ', ' + weatherData['weather'][0]['description'];
-	textString += '\nHigh: ' + weatherData['main']['temp_max'];
-	textString += '\nLow: ' + weatherData['main']['temp_min'];
+	var textString = '\nAutomatic weather: ' + account['city'] + '\n';
+	textString += 'Current: ' + Math.round(weatherData['currently']['temperature']) + ', ' + weatherData['currently']['summary'];
+	textString += '\nHigh: ' + Math.round(weatherData['daily']['data'][0]['temperatureMax']);
+	textString += '\nLow: ' + Math.round(weatherData['daily']['data'][0]['temperatureMin']);
 
 	client.messages.create({
 		body: textString,
@@ -54,7 +61,7 @@ var sendMessage = function(account, weatherData) {
 		from: credentials['twilio']['phoneNumber']
 		}, 
 		function(message) {
-			myConsole.log('Weather sent to: ' + account['name'] + " - " + account['number']);
+			myConsole.log('Weather sent to: ' + account['name'] + " for " + account['city']);
 		}
 	);
 }
@@ -71,29 +78,36 @@ systime.on('minute', function(date) {
 
 	myConsole.log(date);
 
-	var weatherToFetch = []
+	var weatherToFetch = {}
 
 	// Populate the weather fetching queue with accounts that need notifying
 	userData['accounts'].forEach(function(someAccount) {
 		someAccount['alerts'].forEach(function(someAlert) {
 			if (dateDay === someAlert['day'] && dateHour + dateMinute == someAlert['time']) {
-				if (weatherToFetch.indexOf(someAccount['cityId']) != -1) {
-					weatherToFetch[someAccount['cityId']].push(someAccount);
+				if (weatherToFetch.hasOwnProperty(someAccount['city'])) {
+					weatherToFetch[someAccount['city']].push(someAccount);
 				} else {
-					weatherToFetch[someAccount['cityId']] = [someAccount];
+					weatherToFetch[someAccount['city']] = [someAccount];
 				}
 			}
 		});
 	});
 
 	// Retrieve weather data once per unique city ID, and send appropriate messages
-	weatherToFetch.forEach(function(weatherID) {
-		openweathermap.now({id: weatherID, appid: weatherParams['appid'], units: weatherParams['units']}, function(err, data) {
-			weatherToFetch[weatherID].forEach(function(someAccount) {
-				sendMessage(someAccount, data);
-			});
-		});
-	});
+	for (city in weatherToFetch) {
+		if (weatherToFetch.hasOwnProperty(city)) {
+
+			if (userData['cities'].hasOwnProperty(city)) {
+				forecast.get([userData['cities'][city]['lat'], userData['cities'][city]['long']], function(err, data) {
+					if (!err) {
+						weatherToFetch[city].forEach(function(someAccount) {
+							sendMessage(someAccount, data);
+						});
+					}
+				});
+			}
+		}
+	}
 });
 
 /*
