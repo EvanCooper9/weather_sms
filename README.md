@@ -2,14 +2,14 @@
 Scheduled weather notifications via SMS
 
 ##About
-A pure javascript app that sends scheduled text messages containing weather information. It integrates both [Twilio](https://www.twilio.com) and [OpenWeatherMap](http://openweathermap.org) APIs for SMS messaging and weather information. With Node.js, weather_sms runs as a standalone application to send messages.
+A pure javascript app that sends scheduled text messages containing weather information. It integrates both [Twilio](https://www.twilio.com) and [Forecast.io](http://forecast.io/) APIs for SMS messaging and weather information. With Node.js, weather_sms runs as a standalone application to send messages.
 
 Currently, it runs on an [Onion Omega](https://onion.io).
 
 ##Getting Started
 Install package dependencies using npm:
 - [twilio](https://www.npmjs.com/package/twilio) v2.9.0
-- [openweathermap](https://www.npmjs.com/package/openweathermap) v1.0.0
+- [forecast](https://www.npmjs.com/package/forecast) v0.2.1
 - [systime](https://www.npmjs.com/package/systime) v0.2.0
 ```
 npm install
@@ -35,11 +35,12 @@ ctr + a, d
 ```
 
 ##User Data
-Notification data is stored in JSON format, and is located in the `./data` directory. For convenience, all data is stored in an array which is key-value paird to `accounts`. In future, more data other than the account information may be stored in the JSON file.
+Notification data is stored in JSON format, and is located in the `./data` directory. User accounts are stored as JSON objects in an array key-value paired to `accounts`. Geographic locations, or cities, are stored similarly.
 
 ```JSON
 {
-  "accounts" : [  ]
+  "accounts" : [  ],
+  "cities" : { }
 }
 ```
 
@@ -58,6 +59,16 @@ Where
 - `number` is the phone number that messages will be sent to. Must be pre-fixed with the number's country code
 - `cityId` is the ID if the city wich weather information is gathered for. See [here](http://openweathermap.org/current#cityid) for more information
 - `alerts` is an array of alert objects
+
+###Cities
+City data is stored within the `cities` as key-value pairings, where the name of the city is the key, and an object containing the latitude and longitude information is the value:
+
+```JSON
+"Ottawa" : {
+  "lat" : 45.4215,
+  "long" : -75.6972
+}
+```
 
 ###Alerts
 Alerts are stored (in an array key-value paired to` alerts`) as follows:
