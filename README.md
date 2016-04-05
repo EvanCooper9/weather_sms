@@ -21,6 +21,19 @@ node weather_sms.js
 > weather_sms is now running
 ```
 
+
+However, it is recommended that weather_sms be ran through [screen](https://www.gnu.org/software/screen/manual/screen.html), to detach the process from the shell. After weather_sms is running, you should use `screen`'s detach feature to allow the process to keep running, even if you kill the terminal.
+
+An example here:
+```
+screen
+node weather_sms.js
+> weather_sms is now running
+
+ctr + a, d
+>[detached]
+```
+
 ##User Data
 Notification data is stored in JSON format, and is located in the `./data` directory. For convenience, all data is stored in an array which is key-value paird to `accounts`. In future, more data other than the account information may be stored in the JSON file.
 
