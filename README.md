@@ -90,8 +90,10 @@ Mon Apr 04 2016 10:57:00 GMT-0400 (EDT)
 ...
 ```
 
+##New Features
+- Optimized API call frequency. Weather data is only downloaded once per distinct city ID, and is sent to the appropriate accounts.
+
 ##Next Steps
-- Optimize API call frequency. Curently, weather data is retrieved for every scheduled alert. Alerts scheduled for the same time and day should use the same weather data
 - Allow clients to respond with SMS to retrieve weather information
 - Allow clients to sign-up and edit their profile by sending a text message
 
