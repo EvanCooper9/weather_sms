@@ -79,6 +79,17 @@ All API data is stored as follows:
 weather_sms logs every minute to a .txt file in `./logs`.
 On start, weather_sms creates a new log file, `000_boot.txt`. Everyday, a new log file will be created that includes the date it was created in the file name (ex: `Apr 02 2016.txt`).
 
+Log messages are recorded as follows:
+```
+...
+Mon Apr 04 2016 10:53:00 GMT-0400 (EDT)
+Mon Apr 04 2016 10:54:00 GMT-0400 (EDT)
+Mon Apr 04 2016 10:55:00 GMT-0400 (EDT)
+Mon Apr 04 2016 10:56:00 GMT-0400 (EDT)
+Mon Apr 04 2016 10:57:00 GMT-0400 (EDT)
+...
+```
+
 ##Next Steps
 - Optimize API call frequency. Curently, weather data is retrieved for every scheduled alert. Alerts scheduled for the same time and day should use the same weather data
 - Allow clients to respond with SMS to retrieve weather information
