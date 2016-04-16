@@ -2,7 +2,7 @@
 Scheduled weather notifications via SMS
 
 ##About
-A pure javascript app that sends scheduled text messages containing weather information. It integrates both [Twilio](https://www.twilio.com) and [Forecast.io](http://forecast.io/) APIs for SMS messaging and weather information. With Node.js, weather_sms runs as a standalone application to send messages.
+A pure javascript app that sends scheduled text messages containing weather information. In terms of APIs, It integrates [Twilio](https://www.twilio.com) for SMS messaging and is powered by [Forecast.io](http://forecast.io/) weather information. With Node.js, weather_sms runs as a standalone application to send messages.
 
 Currently, it runs on an [Onion Omega](https://onion.io).
 
