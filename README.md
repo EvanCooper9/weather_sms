@@ -6,6 +6,9 @@ A pure javascript app that sends scheduled text messages containing weather info
 
 Currently, it runs on an [Onion Omega](https://onion.io).
 
+##Goals
+With this project, I aim to build a diverse web and cloud enabled application that explores the content I'm learning in school, and more. I want to further familiarize myself with today and tomorrow's modern technologies, specifically mobile platforms and the web. This may have the potential to become my Honours project for my final year of university, but we'll take it one step at a time. 
+
 ##Getting Started
 Install package dependencies using npm:
 - [twilio](https://www.npmjs.com/package/twilio) v2.9.0
@@ -115,12 +118,14 @@ Mon Apr 04 2016 10:57:00 GMT-0400 (EDT)
 ```
 
 ##New Features
-- Optimized API call frequency. Weather data is only downloaded once per distinct location, and is sent to the appropriate accounts.
+- Optimized API call frequency. Weather data is only downloaded once per distinct location, and is sent to the appropriate accounts during scheduled messaging.
 - Changed weather API provider from OpenWeatherMap to Forecast.io
 
 ##Next Steps
 - Allow clients to respond with SMS to retrieve weather information
 - Allow clients to sign-up and edit their profile by sending a text message
+- Build a web app interface
+- Build mobile interfaces
 
 ##License
 MIT License
