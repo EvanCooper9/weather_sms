@@ -2,17 +2,13 @@
 // Evan Cooper
 
 var fs = require('fs');
+var path = require('path');
 var http = require('http');
-
-// Setup the log file
-var Console = require('console').Console;
-var logStream = fs.createWriteStream('./logs/0000_boot.txt');
-var myConsole = new Console(logStream);
 
 // Load the credentials file.
 var credentials;
 try {
-	var file = './data/credentials.json';
+	var file = path.join(__dirname, '/data/credentials.json');
 	credentials = JSON.parse(fs.readFileSync(file, 'utf-8'));
 } catch (e) {
 	console.log("No credentials.. killing weather_sms");
@@ -22,12 +18,33 @@ try {
 // Load the accounts file.
 var userData;
 try {
-	var file = './data/userData.json';
+	var file = path.join(__dirname, '/data/userData.json');
 	userData = JSON.parse(fs.readFileSync(file, 'utf-8'));
 } catch (e) {
 	console.log("No user data.. killing weather_sms");
 	process.exit();
 }
+
+// Setup the log file
+var Console = require('console').Console;
+var logPath = path.join(__dirname, '/logs/0000_boot.txt');
+var logStream = fs.createWriteStream(logPath);
+var myConsole = new Console(logStream);
+
+// Setup incoming server.
+// Allows clients to request weather information on demand.
+var app = require(path.join(__dirname, '/server/app'));
+var http = require('http');
+var port = process.env.PORT || '3000';
+app.set('port', port);
+
+var morgan = require('morgan');
+var accessLogStream = fs.createWriteStream(path.join(__dirname, '/logs/server_log.txt'), {flags: 'a'});
+app.use(morgan('dev', {stream: accessLogStream}))
+
+var server = http.createServer(app);
+server.listen(port);
+console.log('weather_sms server listening on ' + port);
 
 // Setup the forecast.io API with credentials
 // Powered by Forecast - forecast.io
@@ -66,8 +83,17 @@ var sendMessage = function(account, weatherData) {
 	);
 }
 
-// Setup Systime for time based actions
+// Systime run functions - used for scheduling
 // https://www.npmjs.com/package/systime
+// Can call on the following:
+//   * second
+//   * minute
+//   * hour
+//   * day
+//   * week
+//   * month
+//   * year
+
 var Systime = require('systime');
 var systime = new Systime();
 
@@ -96,7 +122,6 @@ systime.on('minute', function(date) {
 	// Retrieve weather data once per unique city ID, and send appropriate messages
 	for (city in weatherToFetch) {
 		if (weatherToFetch.hasOwnProperty(city)) {
-
 			if (userData['cities'].hasOwnProperty(city)) {
 				forecast.get([userData['cities'][city]['lat'], userData['cities'][city]['long']], function(err, data) {
 					if (!err) {
@@ -110,38 +135,15 @@ systime.on('minute', function(date) {
 	}
 });
 
-/*
-systime.on('second', function(date) {
-  console.log(date);
-});
-
-systime.on('hour', function(date) {
-	console.log(date);
-});
-*/
-
 systime.on('day', function(date) {
 	// Create a new log file
 	var dateString = date.toString().substring(4, 15);
-	myConsole = new Console(fs.createWriteStream('./logs/' + dateString + '.txt'));
+	myConsole = new Console(fs.createWriteStream(path.join(__dirname, '/logs/' + dateString + '.txt')));
 
 	// Re-load the alert time data
-	var file = './data/userData.json';
+	var file = path.join(__dirname, 'data/userData.json');
 	userData = JSON.parse(fs.readFileSync(file, 'utf-8'));
 });
 
-/*
-systime.on('week', function() {
-  console.log('new week');
-});
- 
-systime.on('month', function() {
-  console.log('new month');
-});
- 
-systime.on('year', function() {
-  console.log('new year');
-});
-*/
 systime.start();
 console.log('weather_sms is now running');

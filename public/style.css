@@ -1,0 +1,14 @@
+.headerDiv {
+	margin: 0px;
+	padding: 0px;
+	height: 100px;
+	width: inherit;
+	background-color: #777799;
+	color: #FFFFFF;
+}
+
+body {
+	top:0px;
+	margin: 0px;
+	padding: 0px;
+}
