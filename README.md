@@ -7,7 +7,7 @@ A pure javascript app that sends scheduled text messages containing weather info
 Currently, it runs on an [Onion Omega](https://onion.io). Omega's node binary requires the use of [forever](https://www.npmjs.com/package/forever) to force the program to continuously run.
 
 ##Goals
-With this project, I aim to build a diverse web and cloud enabled application that explores the content I'm learning in school, and more. I want to further familiarize myself with today and tomorrow's modern technologies, specifically mobile platforms and the web. This may have the potential to become my Honours project for my final year of university, but we'll take it one step at a time.  Example below:
+With this project, I aim to build a diverse web and cloud enabled application that explores the content I'm learning in school, and more. I want to further familiarize myself with today and tomorrow's modern technologies, specifically mobile platforms and the web. This may have the potential to become my Honours project for my final year of university, but we'll take it one step at a time.
 
 ##What's New?
 ###On-demand Weather
@@ -70,7 +70,6 @@ PORT=9999 node weather_sms.js
 > weather_sms is now running
 ```
 
-
 However, it is recommended that weather_sms be ran through [screen](https://www.gnu.org/software/screen/manual/screen.html), to detach the process from the shell. After weather_sms is running, you should use `screen`'s detach feature to allow the process to keep running, even if you kill the terminal.
 
 An example here:
@@ -100,14 +99,14 @@ Accounts are stored as follows:
 {
   "name" : "Evan",
   "number" : "14161234567",
-  "city" : "Ottawa, ON, Canada"
+  "city" : "Ottawa, ON, Canada",
   "alerts" : [ ]
 }
 ```
 Where
 - `name` is the name on the account
 - `number` is the phone number that messages will be sent to. Must be pre-fixed with the number's country code
-- `cityId` is the ID if the city wich weather information is gathered for. See [here](http://openweathermap.org/current#cityid) for more information
+- `city` is the city name as per Google's geocoding records.
 - `alerts` is an array of alert objects
 
 ####Alerts
@@ -133,7 +132,7 @@ City data is stored within the `cities` as key-value pairings, where the name of
 ```
 
 ##API's and Stuff
-API credentials are stored in `credentials.JSON`, located in `./data`. You should have your own API keys for Twilio and OpenWeatherMap. Additionally for Twilio, weather_sms requires your Twilio phone number associated with your API key to be stored in the credentials file.
+API credentials are stored in `credentials.JSON`, located in `./data`. You should have your own API keys for Twilio, Forecast.io and Google. Additionally for Twilio, weather_sms requires your Twilio phone number associated with your API key to be stored in the credentials file.
 
 All API data is stored as follows:
 ```JSON
@@ -143,12 +142,12 @@ All API data is stored as follows:
     "authToken" : "twilio_authToken",
     "phoneNumber" : "twilio_phoneNumber"
   },
-	"forecast.io" : {
-		"APIKey" : "forecast.io_APIKey"
-	},
-	"googleGeocoding" : {
-		"APIKey" : "googleGeocoding_APIKey"
-	}
+  "forecast.io" : {
+    "APIKey" : "forecast.io_APIKey"
+  },
+  "googleGeocoding" : {
+	"APIKey" : "googleGeocoding_APIKey"
+  }
 }
 ```
 
@@ -168,7 +167,7 @@ Mon Apr 04 2016 10:57:00 GMT-0400 (EDT)
 ```
 
 ##Next Steps
-- Allow clients to sign-up and edit their profile by sending a text message
+- Allow clients to sign-up and further edit their profile by sending a text message
 - Build a web app interface
 - Build mobile interfaces
 
