@@ -1,4 +1,4 @@
-# [weather_sms](http://evancooper9.github.io/weather_sms)
+#weather_sms
 Scheduled weather notifications via SMS
 
 ##About
