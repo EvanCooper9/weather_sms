@@ -1,5 +1,5 @@
 #weather_sms
-Scheduled weather notifications via SMS
+Weather notifications via SMS
 
 ##About
 A pure javascript app that sends scheduled text messages containing weather information. In terms of APIs, It integrates [Twilio](https://www.twilio.com) for SMS messaging and is powered by [Forecast.io](http://forecast.io/) weather information. With Node.js, weather_sms runs as a standalone application/server to send/receive messages.
@@ -51,7 +51,7 @@ Install package dependencies using npm:
 - [systime](https://www.npmjs.com/package/systime)
 - [express](https://www.npmjs.com/package/express)
 - [body-parser](https://www.npmjs.com/package/body-parser)
-- [morgan](https://www.npmjs.com/package/morgan) **optional**
+- [morgan](https://www.npmjs.com/package/morgan)
 - [forever](https://www.npmjs.com/package/forever) **optional** 
 ```
 npm install
