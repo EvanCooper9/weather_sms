@@ -1,0 +1,45 @@
+{
+	"accounts" : [
+		{
+			"name" : "Evan",
+			"number" : "14165566552",
+			"city" : "Ottawa, ON, Canada",
+			"alerts" : [
+				{
+					"day" : "Mon",
+					"time" : "0630"
+				},
+				{
+					"day" : "Tue",
+					"time" : "0630"
+				},
+				{
+					"day" : "Wed",
+					"time" : "0630"
+				},
+				{
+					"day" : "Thu",
+					"time" : "0630"
+				},
+				{
+					"day" : "Fri",
+					"time" : "0630"
+				},
+				{
+					"day" : "Sat",
+					"time" : "1000"
+				},
+				{
+					"day" : "Sun",
+					"time" : "1000"
+				}
+			]
+		}
+	],
+	"cities" : {
+		"Ottawa, ON, Canada" : {
+			"lat" : 45.4215,
+			"lng" : -75.6972
+		}
+	}
+}

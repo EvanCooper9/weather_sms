@@ -13,4 +13,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/', router);
 app.use(express.static('public'));
 
+var morgan = require('morgan');
+var accessLogStream = fs.createWriteStream(path.join(__dirname, '/../logs/server_log.txt'), {flags: 'a'});
+app.use(morgan('dev', {stream: accessLogStream}))
+
 module.exports = app;
