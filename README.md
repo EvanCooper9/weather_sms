@@ -9,6 +9,9 @@ Currently, it runs on an [Onion Omega](https://onion.io). Omega's node binary re
 ##Goals
 With this project, I aim to build a diverse web and cloud enabled application that explores the content I'm learning in school, and more. I want to further familiarize myself with today and tomorrow's modern technologies, specifically mobile platforms and the web. This may have the potential to become my Honours project for my final year of university, but we'll take it one step at a time.  Example below:
 
+##What's New?
+###On-demand Weather
+Users can now request on-demand weather updates, rather than just having scheduled alerts. To get a weatehr update, the user simply has to text `weather` (case insensitive) to the number that sends them weather updates. They will then get a weather update with the current weather for their location
 ```
 User:
 Weather
@@ -19,10 +22,6 @@ Current: 22, Clear
 High: 23
 Low: 5
 ```
-
-##What's New?
-###On-demand Weather
-Users can now request on-demand weather updates, rather than just having scheduled alerts. To get a weatehr update, the user simply has to text `weather` (case insensitive) to the number that sends them weather updates. They will then get a weather update with the current weather for their location
 
 ###Changing Location
 Additionally, users can change their location by simply texing `location` (case insensitive) to the number that sends them weather updates. This functionality uses twilio's request parameters along with google's geocoding API in order to fetch a user's location by name. If multiple locations exist with the same namme, the user will be prompted to choose one. Example below.
