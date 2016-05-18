@@ -2,25 +2,72 @@
 Scheduled weather notifications via SMS
 
 ##About
-A pure javascript app that sends scheduled text messages containing weather information. In terms of APIs, It integrates [Twilio](https://www.twilio.com) for SMS messaging and is powered by [Forecast.io](http://forecast.io/) weather information. With Node.js, weather_sms runs as a standalone application to send messages.
+A pure javascript app that sends scheduled text messages containing weather information. In terms of APIs, It integrates [Twilio](https://www.twilio.com) for SMS messaging and is powered by [Forecast.io](http://forecast.io/) weather information. With Node.js, weather_sms runs as a standalone application/server to send/receive messages.
 
-Currently, it runs on an [Onion Omega](https://onion.io).
+Currently, it runs on an [Onion Omega](https://onion.io). Omega's node binary requires the use of [forever](https://www.npmjs.com/package/forever) to force the program to continuously run.
 
 ##Goals
-With this project, I aim to build a diverse web and cloud enabled application that explores the content I'm learning in school, and more. I want to further familiarize myself with today and tomorrow's modern technologies, specifically mobile platforms and the web. This may have the potential to become my Honours project for my final year of university, but we'll take it one step at a time. 
+With this project, I aim to build a diverse web and cloud enabled application that explores the content I'm learning in school, and more. I want to further familiarize myself with today and tomorrow's modern technologies, specifically mobile platforms and the web. This may have the potential to become my Honours project for my final year of university, but we'll take it one step at a time.  Example below:
+
+```
+User:
+Weather
+
+weather_sms:
+Automatic weather: Ottawa, ON, Canada
+Current: 22, Clear
+High: 23
+Low: 5
+```
+
+##What's New?
+###On-demand Weather
+Users can now request on-demand weather updates, rather than just having scheduled alerts. To get a weatehr update, the user simply has to text `weather` (case insensitive) to the number that sends them weather updates. They will then get a weather update with the current weather for their location
+
+###Changing Location
+Additionally, users can change their location by simply texing `location` (case insensitive) to the number that sends them weather updates. This functionality uses twilio's request parameters along with google's geocoding API in order to fetch a user's location by name. If multiple locations exist with the same namme, the user will be prompted to choose one. Example below.
+```
+User:
+Location
+
+weather_sms:
+Multiple locations matching your location name:
+0. Ottawa, ON, Canada
+1. Ottawa, IL 61350, USA
+2. Ottawa, KS 66067, USA
+3. Ottawa, OH 45875, USA
+Reply with desired location number.
+
+User:
+1
+
+weather_sms:
+Your location has been changed to: Ottawa, ON, Canada
+```
 
 ##Getting Started
 Install package dependencies using npm:
-- [twilio](https://www.npmjs.com/package/twilio) v2.9.0
-- [forecast](https://www.npmjs.com/package/forecast) v0.2.1
-- [systime](https://www.npmjs.com/package/systime) v0.2.0
+- [twilio](https://www.npmjs.com/package/twilio)
+- [forecast](https://www.npmjs.com/package/forecast)
+- [systime](https://www.npmjs.com/package/systime)
+- [express](https://www.npmjs.com/package/express)
+- [body-parser](https://www.npmjs.com/package/body-parser)
+- [morgan](https://www.npmjs.com/package/morgan) **optional**
+- [forever](https://www.npmjs.com/package/forever) **optional** 
 ```
 npm install
 ```
 
-Finally, simply run `weather_sms.js` with `node`:
+Finally, simply run `weather_sms.js` with `node`.
+To specify the port for the incoming server, set the `PORT` environment variable. Without this, port 3000 is used as default.
 ```
 node weather_sms.js
+> weather_sms server listening on 3000
+> weather_sms is now running
+```
+```
+PORT=9999 node weather_sms.js
+> weather_sms server listening on 9999
 > weather_sms is now running
 ```
 
@@ -30,7 +77,8 @@ However, it is recommended that weather_sms be ran through [screen](https://www.
 An example here:
 ```
 screen
-node weather_sms.js
+PORT=9999 node weather_sms.js
+> weather_sms server listening on 9999
 > weather_sms is now running
 
 ctr + a, d
@@ -53,7 +101,7 @@ Accounts are stored as follows:
 {
   "name" : "Evan",
   "number" : "14161234567",
-  "cityId" : 6094817,
+  "city" : "Ottawa, ON, Canada"
   "alerts" : [ ]
 }
 ```
@@ -79,7 +127,7 @@ Where
 City data is stored within the `cities` as key-value pairings, where the name of the city is the key, and an object containing the latitude and longitude information is the value:
 
 ```JSON
-"Ottawa" : {
+"Ottawa, ON, Canada" : {
   "lat" : 45.4215,
   "long" : -75.6972
 }
@@ -96,9 +144,12 @@ All API data is stored as follows:
     "authToken" : "twilio_authToken",
     "phoneNumber" : "twilio_phoneNumber"
   },
-  "openweathermap" : {
-    "appid" : "openweathermap_appid"
-  }
+	"forecast.io" : {
+		"APIKey" : "forecast.io_APIKey"
+	},
+	"googleGeocoding" : {
+		"APIKey" : "googleGeocoding_APIKey"
+	}
 }
 ```
 
@@ -117,12 +168,7 @@ Mon Apr 04 2016 10:57:00 GMT-0400 (EDT)
 ...
 ```
 
-##New Features
-- Optimized API call frequency. Weather data is only downloaded once per distinct location, and is sent to the appropriate accounts during scheduled messaging.
-- Changed weather API provider from OpenWeatherMap to Forecast.io
-
 ##Next Steps
-- Allow clients to respond with SMS to retrieve weather information
 - Allow clients to sign-up and edit their profile by sending a text message
 - Build a web app interface
 - Build mobile interfaces
