@@ -7,7 +7,6 @@ var http = require('http');
 var appDataPath = path.join(__dirname, '/data/appData')
 var appData = require(appDataPath);
 var systime = appData.systime;
-var timer = appData.timer;
 
 // Setup incoming server.
 // Allows clients to request weather information on demand.
@@ -19,6 +18,5 @@ var server = http.createServer(app);
 server.listen(port);
 console.log('weather_sms server listening on ' + port);
 
-//systime.start();
-timer.startTimer();
+systime.start();
 console.log('weather_sms is now running');

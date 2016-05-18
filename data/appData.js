@@ -161,71 +161,8 @@ systime.on('day', function(date) {
 	var twilio = appData.twilio;
 });
 
-var timer = {};
-
-var timer_onMinute = function(date) {
-	var dateDay = date.toString().substring(0,3);
-	var dateHour = date.toString().substring(16, 18);
-	var dateMinute = date.toString().substring(19, 21);
-
-	myConsole.log(date);
-
-	var weatherToFetch = {};
-
-	// Populate the weather fetching queue with accounts that need notifying
-	userData['accounts'].forEach(function(someAccount) {
-		someAccount['alerts'].forEach(function(someAlert) {
-			if (dateDay === someAlert['day'] && dateHour + dateMinute == someAlert['time']) {
-				if (weatherToFetch.hasOwnProperty(someAccount['city'])) {
-					weatherToFetch[someAccount['city']].push(someAccount);
-				} else {
-					weatherToFetch[someAccount['city']] = [someAccount];
-				}
-			}
-		});
-	});
-
-	// Retrieve weather data once per unique city ID, and send appropriate messages
-	for (city in weatherToFetch) {
-		weatherToFetch[city].forEach(function (someAccount) {
-			var weatherData = forecast.getWeather(someAccount);
-			if (weatherData != undefined) { twilio.sendWeatherMessage(someAccount, weatherData); }
-		});
-	}
-}
-
-var timer_onDay = function(date) {
-	// Create a new log file
-	var dateString = date.toString().substring(4, 15);
-	myConsole = new Console(fs.createWriteStream(path.join(__dirname, '/../logs/' + dateString + '.txt')));
-
-	// Re-load the alert time data
-	var appDataPath = path.join(__dirname, '/../data/appData')
-	var appData = require(appDataPath);
-	var userData = appData.userData;
-	var twilio = appData.twilio;
-}
-
-var startTimer = function() {
-	while (true) {
-		var date = new Date();
-
-		if (date.getSeconds() === 0) {
-			timer_onMinute(date);
-			if (date.getHours() === 0) {
-				timer_onDay(date);
-			}
-		}
-	}
-}
-
-timer.startTimer = startTimer;
-timer.onMinute = timer_onMinute;
-timer.onDay = timer_onDay;
-
 exports.credentials = credentials;
 exports.userData = userData;
 exports.forecast = forecast;
 exports.twilio = twilio;
 exports.systime = systime;
-exports.timer = timer;
