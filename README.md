@@ -84,29 +84,21 @@ All user-related data is stored in `userData.json`, and is located in the `./dat
 Accounts are stored as follows:
 ```JSON
 {
-	"name" : "Evan",
-	"number" : "14161234567",
-	"city" : "Ottawa, ON, Canada",
-	"alerts" : [ ]
+	"name" : "Evan",		// name of the account
+	"number" : "14161234567",	// phone number to send to, pre-fixed with country code
+	"city" : "Ottawa, ON, Canada",	// city for weather information as per Google's geocoding
+	"alerts" : [ ]			// array of alert objects
 }
 ```
-Where
-- `name` is the name on the account
-- `number` is the phone number that messages will be sent to. Must be pre-fixed with the number's country code
-- `city` is the city name as per Google's geocoding records.
-- `alerts` is an array of alert objects
 
 ####Alerts
 Alerts for each account are stored in an array named `alerts` as follows:
 ```JSON
 {
-	"day" : "Mon",
-	"time" : "1345"
+	"day" : "Mon",			// day of the alert (`Mon`, `Tue`, `Wed`, `Thu`, `Fri`, `Sat`, `Sun`)
+	"time" : "1345"			// time of the alert, in 24hrs
 }
 ```
-Where
-- `day` is the day of the alert. Represented in 3 letters (`Mon`, `Tue`, `Wed`, `Thu`, `Fri`, `Sat`, `Sun`)
-- `time` is the time of the alert, in 24hrs
 
 ###Cities
 City data is stored within the `cities` as key-value pairings, where the name of the city is the key, and an object containing the latitude and longitude information is the value:
