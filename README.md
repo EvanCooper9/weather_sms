@@ -4,10 +4,10 @@ Weather notifications via SMS
 ##About
 A pure javascript app that sends scheduled text messages containing weather information. In terms of APIs, It integrates [Twilio](https://www.twilio.com) for SMS messaging and is powered by [Forecast.io](http://forecast.io/) weather information. With Node.js, weather_sms runs as a standalone application/server to send/receive messages.
 
-Currently, it runs on an [Onion Omega](https://onion.io). Omega's node binary requires the use of [forever](https://www.npmjs.com/package/forever) to force the program to continuously run.
+Currently, it runs on an [Onion Omega](https://onion.io). Omega's own node binary requires the use of [forever](https://www.npmjs.com/package/forever) to force the program to run continuously. In my case, I'm using a binary different than the one officially supported by the Onion Omega. I'm able to use less of the very limited resources.
 
 ##Goals
-With this project, I aim to build a diverse web and cloud enabled application that explores the content I'm learning in school, and more. I want to further familiarize myself with today and tomorrow's modern technologies, specifically mobile platforms and the web. This may have the potential to become my Honours project for my final year of university, but we'll take it one step at a time.
+With this project, I aim to build a diverse web and cloud enabled application that explores the content I'm learning in school, and more. I want to further familiarize myself with today and tomorrow's modern technologies, specifically mobile platforms and the web. This may have the potential to become my Honours project for my final year of university, but we'll take it one step at a time. It's also something to keep me busy.
 
 ##What's New?
 ###On-demand Weather
@@ -88,8 +88,8 @@ Notification data is stored in JSON format, and is located in the `./data` direc
 
 ```JSON
 {
-  "accounts" : [  ],
-  "cities" : { }
+	"accounts" : [  ],
+	"cities" : { }
 }
 ```
 
@@ -97,10 +97,10 @@ Notification data is stored in JSON format, and is located in the `./data` direc
 Accounts are stored as follows:
 ```JSON
 {
-  "name" : "Evan",
-  "number" : "14161234567",
-  "city" : "Ottawa, ON, Canada",
-  "alerts" : [ ]
+	"name" : "Evan",
+	"number" : "14161234567",
+	"city" : "Ottawa, ON, Canada",
+	"alerts" : [ ]
 }
 ```
 Where
@@ -113,8 +113,8 @@ Where
 Alerts are stored (in an array key-value paired to` alerts`) as follows:
 ```JSON
 {
-  "day" : "Mon",
-  "time" : "1345"
+	"day" : "Mon",
+	"time" : "1345"
 }
 ```
 Where
@@ -126,8 +126,8 @@ City data is stored within the `cities` as key-value pairings, where the name of
 
 ```JSON
 "Ottawa, ON, Canada" : {
-  "lat" : 45.4215,
-  "long" : -75.6972
+	"lat" : 45.4215,
+	"long" : -75.6972
 }
 ```
 
@@ -137,17 +137,17 @@ API credentials are stored in `credentials.JSON`, located in `./data`. You shoul
 All API data is stored as follows:
 ```JSON
 {
-  "twilio" : {
-    "accountSID" : "twilio_accountSID",
-    "authToken" : "twilio_authToken",
-    "phoneNumber" : "twilio_phoneNumber"
-  },
-  "forecast.io" : {
-    "APIKey" : "forecast.io_APIKey"
-  },
-  "googleGeocoding" : {
-	"APIKey" : "googleGeocoding_APIKey"
-  }
+	"twilio" : {
+		"accountSID" : "twilio_accountSID",
+		"authToken" : "twilio_authToken",
+		"phoneNumber" : "twilio_phoneNumber"
+	},
+	"forecast.io" : {
+		"APIKey" : "forecast.io_APIKey"
+	},
+	"googleGeocoding" : {
+		"APIKey" : "googleGeocoding_APIKey"
+	}
 }
 ```
 
