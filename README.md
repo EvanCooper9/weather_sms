@@ -140,7 +140,7 @@ All API data is stored as follows:
 
 ##Logs
 weather_sms logs every minute to a .txt file in `./logs`.
-On start, weather_sms creates a new log file, `000_boot.txt`. Everyday, a new log file will be created that includes the date it was created in the file name (ex: `Apr 02 2016.txt`).
+On start, weather_sms creates a new log file, `000_boot.txt`. Everyday, a new log file will be created that includes the date it was created in the file name (ex: `Apr 04 2016.txt`).
 
 Log messages are recorded as follows:
 ```
