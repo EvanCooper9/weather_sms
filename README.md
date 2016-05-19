@@ -82,21 +82,21 @@ All user-related data is stored in `userData.json`, and is located in the `./dat
 
 ###Accounts
 Accounts are stored as follows:
-```JSON
+```
 {
-	"name" : "Evan",		// name of the account
-	"number" : "14161234567",	// phone number to send to, pre-fixed with country code
+	"name" : "Evan",				// name of the account
+	"number" : "14161234567",		// phone number to send to, pre-fixed with country code
 	"city" : "Ottawa, ON, Canada",	// city for weather information as per Google's geocoding
-	"alerts" : [ ]			// array of alert objects
+	"alerts" : [ ]					// array of alert objects
 }
 ```
 
 ####Alerts
 Alerts for each account are stored in an array named `alerts` as follows:
-```JSON
+```
 {
-	"day" : "Mon",			// day of the alert (`Mon`, `Tue`, `Wed`, `Thu`, `Fri`, `Sat`, `Sun`)
-	"time" : "1345"			// time of the alert, in 24hrs
+	"day" : "Mon",					// day of the alert (`Mon`, `Tue`, `Wed`, `Thu`, `Fri`, `Sat`, `Sun`)
+	"time" : "1345"					// time of the alert, in 24hrs
 }
 ```
 
