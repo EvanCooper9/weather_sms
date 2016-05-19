@@ -58,7 +58,7 @@ npm install
 ```
 
 Finally, simply run `weather_sms.js` with `node`.
-To specify the port for the incoming server, set the `PORT` environment variable. Without this, port 3000 is used as default.
+To specify the port for the incoming server, set the `PORT` environment variable. Without this, port 3000 is used as default. I personally use `screen` to detach the porcess from the shell in order to run the program forever.
 ```
 node weather_sms.js
 > weather_sms server listening on 3000
@@ -70,21 +70,8 @@ PORT=9999 node weather_sms.js
 > weather_sms is now running
 ```
 
-However, it is recommended that weather_sms be ran through [screen](https://www.gnu.org/software/screen/manual/screen.html), to detach the process from the shell. After weather_sms is running, you should use `screen`'s detach feature to allow the process to keep running, even if you kill the terminal.
-
-An example here:
-```
-screen
-PORT=9999 node weather_sms.js
-> weather_sms server listening on 9999
-> weather_sms is now running
-
-ctr + a, d
->[detached]
-```
-
 ##User Data
-Notification data is stored in JSON format, and is located in the `./data` directory. User accounts are stored as JSON objects in an array key-value paired to `accounts`. Geographic locations, or cities, are stored similarly.
+All user-related data is stored in `userData.json`, and is located in the `./data` directory. User accounts are stored as JSON objects in an array named `accounts`. Geographic locations, or cities, are stored similarly.
 
 ```JSON
 {
@@ -110,7 +97,7 @@ Where
 - `alerts` is an array of alert objects
 
 ####Alerts
-Alerts are stored (in an array key-value paired to` alerts`) as follows:
+Alerts for each account are stored in an array named `alerts` as follows:
 ```JSON
 {
 	"day" : "Mon",
@@ -118,8 +105,8 @@ Alerts are stored (in an array key-value paired to` alerts`) as follows:
 }
 ```
 Where
-- `day` is the day that the alert is scheduled for. Represented in 3 letters (`Mon`, `Tue`, `Wed`, `Thu`, `Fri`, `Sat`, `Sun`)
-- `time` is the time, in 24h, that the alert is scheduled for
+- `day` is the day of the alert. Represented in 3 letters (`Mon`, `Tue`, `Wed`, `Thu`, `Fri`, `Sat`, `Sun`)
+- `time` is the time of the alert, in 24hrs
 
 ###Cities
 City data is stored within the `cities` as key-value pairings, where the name of the city is the key, and an object containing the latitude and longitude information is the value:
@@ -127,7 +114,7 @@ City data is stored within the `cities` as key-value pairings, where the name of
 ```JSON
 "Ottawa, ON, Canada" : {
 	"lat" : 45.4215,
-	"long" : -75.6972
+	"lng" : -75.6972
 }
 ```
 
