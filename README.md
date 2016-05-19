@@ -1,4 +1,4 @@
-#weather_sms
+#weather_sms [![Build Status](https://travis-ci.org/EvanCooper9/weather_sms.svg?branch=master)](https://travis-ci.org/EvanCooper9/weather_sms)
 Weather notifications via SMS
 
 ##About
