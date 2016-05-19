@@ -46,11 +46,11 @@ var forecast = new Forecast({
 });
 
 var getWeather = function(account) {
-	var weatherData;
-	forecast.get([userData['cities'][someAccount['city']]['lat'], userData['cities'][someAccount['city']]['lng']], function(err, data) {
-		if (!err) { weatherData = data; }
+	forecast.get([userData['cities'][account['city']]['lat'], userData['cities'][account['city']]['lng']], function(err, data) {
+		if (!err) {
+			twilio.sendWeatherMessage(account, data)
+		}
 	});
-	return weatherData;
 }
 
 forecast.getWeather = getWeather;
@@ -141,8 +141,7 @@ systime.on('minute', function(date) {
 	// Retrieve weather data once per unique city ID, and send appropriate messages
 	for (city in weatherToFetch) {
 		weatherToFetch[city].forEach(function (someAccount) {
-			var weatherData = forecast.getWeather(someAccount);
-			if (weatherData != undefined) { twilio.sendWeatherMessage(someAccount, weatherData); }
+			forecast.getWeather(someAccount);
 		});
 	}
 

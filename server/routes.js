@@ -87,8 +87,7 @@ router.get('/sms_req', function(req, res) {
 		userData['accounts'].forEach(function (someAccount) {
 			if (someAccount['number'] === reqNumber) { // Find the account that sent the incoming message.
 				if (reqBody === 'WEATHER') {
-					var weatherData = forecast.getWeather(account);
-					if (weatherData != undefined) { twilio.sendWeatherMessage(account, weatherData); }
+					forecast.getWeather(someAccount);
 				} else if (reqBody === 'LOCATION') {
 					locationRequest(someAccount);
 				} else if (reqBody === 'HELP') {

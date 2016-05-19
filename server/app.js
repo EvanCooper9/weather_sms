@@ -14,7 +14,8 @@ app.use('/', router);
 app.use(express.static('public'));
 
 var morgan = require('morgan');
-var accessLogStream = fs.createWriteStream(path.join(__dirname, '/../logs/server_log.txt'), {flags: 'a'});
-app.use(morgan('dev', {stream: accessLogStream}))
+var logPath = path.join(__dirname, '/../logs/server_log.txt');
+var logStream = fs.createWriteStream(logPath);
+app.use(morgan('dev', {stream: logStream}))
 
 module.exports = app;
