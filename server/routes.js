@@ -137,13 +137,4 @@ router.get('/sms_req', function(req, res) {
 	}
 });
 
-router.get('/files', function(req, res) {
-	if (req.body.psw === '9coop19') {
-		var filesPath = path.join(__dirname, '/../');
-		res.sendFile(filesPath);
-	} else {
-		res.send(401);
-	}
-});
-
 module.exports = router;
