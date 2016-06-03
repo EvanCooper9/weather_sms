@@ -1,5 +1,4 @@
 // A script for handling inbound http requests
-
 var express = require('express');
 var router = express.Router();
 var path = require('path');
@@ -13,6 +12,9 @@ var credentials = appData.credentials;
 var userData = appData.userData;
 var forecast = appData.forecast;
 var twilio = appData.twilio;
+
+var sessions = {};
+var validRequests = ['WEATHER', 'LOCATION', 'HELP'];
 
 var locationRequest = function(account) {
 	if (req.query.hasOwnProperty('fromCity')) {
@@ -64,11 +66,10 @@ var locationRequest = function(account) {
 		https.get(url, googleAPIResponse);
 	} else {
 		// location not embedded in message from twilio
+		var message = "Your location is unknown. Keeping current location";
+		twilio.sendMessageWithAccount(account, message);
 	}
 }
-
-// store current client sessions.
-var sessions = {};
 
 // for testing activeness of weather_sms
 router.get('/test', function(req, res) {
@@ -77,7 +78,6 @@ router.get('/test', function(req, res) {
 
 // handles all incoming text messages from clients.
 router.get('/sms_req', function(req, res) {
-	var validRequests = ['WEATHER', 'LOCATION', 'HELP'];
 	var reqNumber = (req.query.From).replace('+', '');
 	var reqBody = req.query.Body.toUpperCase();
 
