@@ -77,33 +77,23 @@ All user-related data is stored in `userData.json`, and is located in the `./dat
 {
 	"accounts" : [ 
 		{
-			"name" : "Evan",		// name of the account
-			"number" : "14161234567",	// phone number to send to, pre-fixed with country code
-			"city" : "Ottawa, ON, Canada",	// city for weather information as per Google's geocoding
+			"name" : "Evan",
+			"number" : "14161234567",
+			"city" : "Ottawa, ON, Canada",
 			"alerts" : [
 				{
-					"day" : "Mon",	// day of the alert (`Mon`, `Tue`, `Wed`, `Thu`, `Fri`, `Sat`, `Sun`)
-					"time" : "1345"	// time of the alert, in 24hrs
+					"day" : "Mon",
+					"time" : "1345"
 				}
 			]
 		}
 	],
 	"cities" : {
-		{
-			"day" : "Mon",			// day of the alert (`Mon`, `Tue`, `Wed`, `Thu`, `Fri`, `Sat`, `Sun`)
-			"time" : "1345"			// time of the alert, in 24hrs
+		"Ottawa, ON, Canada" : {
+			"lat" : 45.4215,
+			"lng" : -75.6972
 		}
 	}
-}
-```
-
-###Cities
-City data is stored within the `cities` as key-value pairings, where the name of the city is the key, and an object containing the latitude and longitude information is the value:
-
-```JSON
-"Ottawa, ON, Canada" : {
-	"lat" : 45.4215,
-	"lng" : -75.6972
 }
 ```
 
