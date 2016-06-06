@@ -73,30 +73,27 @@ PORT=9999 node weather_sms.js
 ##User Data
 All user-related data is stored in `userData.json`, and is located in the `./data` directory. User accounts are stored as JSON objects in an array named `accounts`. Geographic locations, or cities, are stored similarly.
 
-```JSON
-{
-	"accounts" : [  ],
-	"cities" : { }
-}
-```
-
-###Accounts
-Accounts are stored as follows:
 ```
 {
-	"name" : "Evan",				// name of the account
-	"number" : "14161234567",		// phone number to send to, pre-fixed with country code
-	"city" : "Ottawa, ON, Canada",	// city for weather information as per Google's geocoding
-	"alerts" : [ ]					// array of alert objects
-}
-```
-
-####Alerts
-Alerts for each account are stored in an array named `alerts` as follows:
-```
-{
-	"day" : "Mon",					// day of the alert (`Mon`, `Tue`, `Wed`, `Thu`, `Fri`, `Sat`, `Sun`)
-	"time" : "1345"					// time of the alert, in 24hrs
+	"accounts" : [ 
+		{
+			"name" : "Evan",		// name of the account
+			"number" : "14161234567",	// phone number to send to, pre-fixed with country code
+			"city" : "Ottawa, ON, Canada",	// city for weather information as per Google's geocoding
+			"alerts" : [
+				{
+					"day" : "Mon",	// day of the alert (`Mon`, `Tue`, `Wed`, `Thu`, `Fri`, `Sat`, `Sun`)
+					"time" : "1345"	// time of the alert, in 24hrs
+				}
+			]
+		}
+	],
+	"cities" : {
+		{
+			"day" : "Mon",			// day of the alert (`Mon`, `Tue`, `Wed`, `Thu`, `Fri`, `Sat`, `Sun`)
+			"time" : "1345"			// time of the alert, in 24hrs
+		}
+	}
 }
 ```
 
